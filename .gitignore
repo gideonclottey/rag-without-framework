@@ -1,1 +1,16 @@
+# rag-without-framework/.gitignore
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
 venv/
+
+# Environment variables
+.env
+
+# Chroma DB data
+rag-backend/db/

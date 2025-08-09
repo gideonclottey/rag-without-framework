@@ -1,10 +1,12 @@
 import google.generativeai as genai
+import os
+
 
 # ✅ Configure your Gemini API key
-genai.configure(api_key="AIzaSyD3R1iQ4HpBvWWZceHkRqyv0f63pwZHVvg")  # Replace with your actual key
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))  # Replace with your actual key
 
 # ✅ Initialize the model
-model = genai.GenerativeModel("gemini-2.5-pro")
+_model = genai.GenerativeModel("gemini-2.5-pro")
 
 # ✅ Define the ask function
 def ask_gemini(query: str, context_chunks: list[str]) -> str:
@@ -13,33 +15,16 @@ def ask_gemini(query: str, context_chunks: list[str]) -> str:
 
     # Build the prompt with context and question
     prompt = f"""
-You are a helpful assistant. Use the context to answer the question with 95% high confidence.
 
---- Context Start ---
-{context}
---- Context End ---
+    Use the context to answer with high accuracy and cite quotes from context when relevant. If you don't know the answer, just say "I don't know". Do not make up an answer.
+    --- Context Start ---
+    {context}
+    --- Context End ---
 
-Question: {query}
-Answer:
-"""
+    Question: {query}
+    Answer:
+    """
 
-    try:
-        # Call Gemini to generate content
-        response = model.generate_content(prompt)
-
-        # Print and return the response
-        print("✅ Gemini Response:\n", response.text)
-        return response.text.strip()
-
-    except Exception as e:
-        print("❌ Error calling Gemini:", e)
-        return "An error occurred."
-
-# # ✅ Example usage
-# if __name__ == "__main__":
-#     context = [
-#         "Retrieval-Augmented Generation (RAG) is a technique that enhances large language models by providing them with external documents retrieved from a knowledge base at query time."
-#     ]
-#     query = "What is the purpose of RAG in LLMs?"
-#     answer = ask_gemini(query, context)
-#     print("\nFinal Answer:", answer)
+    # Generate the response
+    resp = _model.generate_content(prompt)
+    return (resp.text or "").strip()
