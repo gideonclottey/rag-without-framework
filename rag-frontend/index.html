@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RAG UI (Vite + Vanilla)</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>RAG — Vite + Vanilla JS</h1>
+        <nav>
+          <a href="/docs" target="_blank" rel="noreferrer">API Docs</a>
+          <a href="/health" target="_blank" rel="noreferrer">API Health</a>
+        </nav>
+      </header>
+
+      <section id="uploadSection" class="card">
+        <h2>1) Upload documents</h2>
+        <input id="fileInput" type="file" multiple />
+        <button id="btnUpload">Upload</button>
+        <pre id="uploadStatus" class="status"></pre>
+      </section>
+
+      <section id="ingestSection" class="card">
+        <h2>2) Ingest (chunk + embed + index)</h2>
+        <div class="row">
+          <label>Chunk size <input id="chunkSize" type="number" value="500" /></label>
+          <label>Overlap <input id="overlap" type="number" value="50" /></label>
+        </div>
+        <button id="btnIngest">Run Ingest</button>
+        <pre id="ingestStatus" class="status"></pre>
+      </section>
+
+      <section id="chatSection" class="card">
+        <h2>3) Ask</h2>
+        <textarea id="query" rows="3" placeholder="Ask a question about your documents..."></textarea>
+        <div class="row">
+          <label>Top K <input id="topK" type="number" value="5" /></label>
+        </div>
+        <button id="btnAsk">Ask</button>
+      </section>
+
+      <section id="answerSection" class="card">
+        <h2>Answer</h2>
+        <div id="answer"></div>
+        <h3>Context used</h3>
+        <ul id="context"></ul>
+      </section>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
