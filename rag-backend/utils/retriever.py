@@ -2,7 +2,8 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 # Initialize ChromaDB client
-client = chromadb.PersistentClient(path='./db')
+client = chromadb.PersistentClient(path="./db")
+
 
 collection = client.get_or_create_collection('rag_chunks')
 
@@ -20,7 +21,14 @@ def store_chunks_in_chroma(chunks, embeddings, batch_size=10):
 
     print(f"✅ Stored {len(ids)} chunks in ChromaDB.")
 
-
+def reset_collection():
+    global collection
+    try:
+        client.delete_collection('rag_chunks')
+        print("✅ Collection 'rag_chunks' deleted.")
+    except Exception:
+        pass
+    collection = client.get_or_create_collection('rag_chunks')
 
 def retrieve_relevant_chunks(query: str, top_k: int=5) -> list:
     """Retrieve the most relevant text chunks for a given query."""
